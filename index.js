@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const app = express();
 
@@ -35,6 +36,16 @@ app.get('/info', (req, res) => {
     let lowerText = `<h3>${date} (${offset})`;
     res.send(upperText + lowerText);
 });
+
+app.get('/api/persons/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const person = persons.find(p => p.id === id);
+    if (person) {
+        return res.json(person);
+    } else {
+        return res.status(404).end();
+    }
+})
 
 const PORT = 3001;
 app.listen(PORT, () => {
