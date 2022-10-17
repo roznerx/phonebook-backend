@@ -45,8 +45,8 @@ app.get('/api/persons/:id', (req, res) => {
         return res.json(person);
     } else {
         return res.status(404).end();
-    }
-})
+    };
+});
 
 app.delete('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id);
@@ -67,6 +67,14 @@ app.post('/api/persons', (req, res) => {
             error: 'content missing'
         });
     };
+
+    persons.forEach(p => {
+        if (p.name == body.name) {
+            return res.status(400).json({
+                error: 'name must be unique'
+            });
+        };
+    });
 
     const person = {
         name: body.name,
